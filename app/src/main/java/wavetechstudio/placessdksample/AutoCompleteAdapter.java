@@ -1,7 +1,9 @@
 package wavetechstudio.placessdksample;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,13 +23,14 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> implements Filterable {
 
-    private ArrayList<AutocompletePrediction> mResultList;
+    private List<AutocompletePrediction> mResultList;
     private PlacesClient placesClient;
 
     AutoCompleteAdapter(Context context, PlacesClient placesClient) {
@@ -73,7 +76,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
 
                 // We need a separate list to store the results, since
                 // this is run asynchronously.
-                ArrayList<AutocompletePrediction> filterData = new ArrayList<>();
+                List<AutocompletePrediction> filterData = new ArrayList<>();
 
                 // Skip the autocomplete query if no constraints are given.
                 if (charSequence != null) {
@@ -95,13 +98,17 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {
 
-                if (results != null && results.count > 0) {
-                    // The API returned at least one result, update the data.
-                    mResultList = (ArrayList<AutocompletePrediction>) results.values;
-                    notifyDataSetChanged();
-                } else {
-                    // The API did not return any results, invalidate the data set.
-                    notifyDataSetInvalidated();
+                try {
+                    if (results != null && results.count > 0) {
+                        // The API returned at least one result, update the data.
+                        mResultList = (List<AutocompletePrediction>) results.values;
+                        notifyDataSetChanged();
+                    } else {
+                        // The API did not return any results, invalidate the data set.
+                        notifyDataSetInvalidated();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -118,7 +125,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
         };
     }
 
-    private ArrayList<AutocompletePrediction> getAutocomplete(CharSequence constraint) {
+    private List<AutocompletePrediction> getAutocomplete(CharSequence constraint) {
 
         //Create a RectangularBounds object.
         RectangularBounds bounds = RectangularBounds.newInstance(
@@ -149,7 +156,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction> im
 
         if (results.isSuccessful()) {
             if (results.getResult() != null) {
-                return (ArrayList<AutocompletePrediction>) results.getResult().getAutocompletePredictions();
+                return results.getResult().getAutocompletePredictions();
             }
             return null;
         } else {
