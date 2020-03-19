@@ -12,7 +12,7 @@ To get started, your app needs to meet two requirements:
 ### Dependencies used
 Add a dependency for the new SDK client library to your app-level build.gradle:
 
-    implementation 'com.google.android.libraries.places:places:1.0.0'
+    implementation 'com.google.android.libraries.places:places:2.2.0'
 
 ## Screen Shoots
 <img src="./images/1.png" width=“400”/>
