@@ -1,8 +1,10 @@
 package wavetechstudio.placessdksample;
 
 import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         responseView = findViewById(R.id.response);
 
         String apiKey = getString(R.string.api_key);
-        if(apiKey.isEmpty()){
+        if (apiKey.isEmpty()) {
             responseView.setText(getString(R.string.error));
             return;
         }
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
     }
 
-    private AdapterView.OnItemClickListener autocompleteClickListener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener autocompleteClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
